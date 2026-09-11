@@ -1,0 +1,30 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  text?: string;
+  /** Background flavour; defaults to the brand's cream wash. */
+  tone?: 'cream' | 'rose' | 'silk' | 'white';
+  align?: 'left' | 'center';
+}
+const { eyebrow, title, text, tone = 'cream', align = 'left' } = Astro.props;
+const toneClass = { cream: 'grad-cream', rose: 'grad-rose', silk: 'grad-silk', white: 'bg-white' }[tone];
+---
+
+<section class:list={['w-full', toneClass]}>
+  <div
+    class:list={[
+      'max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-16 lg:py-20',
+      align === 'center' && 'text-center flex flex-col items-center',
+    ]}
+  >
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1 class="display text-4xl sm:text-5xl lg:text-6xl mt-2 max-w-[16ch] text-balance" set:html={title} />
+    {text && (
+      <p class:list={['mt-4 text-sm sm:text-[15px] text-muted leading-relaxed max-w-lg text-pretty', align === 'center' && 'mx-auto']}>
+        {text}
+      </p>
+    )}
+    <slot />
+  </div>
+</section>

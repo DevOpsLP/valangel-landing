@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { u } from '../lib/url';
+import { categories } from '../lib/catalog';
+---
+
+<Layout title="Página no encontrada | Valangel Skin" description="La página que buscas no existe." bleed>
+  <section class="w-full grad-rose">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28 text-center flex flex-col items-center">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="display text-5xl sm:text-7xl mt-3">Esta página<br />se nos fue</h1>
+      <p class="mt-5 text-[15px] text-ink/70 max-w-md leading-relaxed">
+        El enlace que seguiste no existe o cambió de sitio. Te dejamos por dónde seguir.
+      </p>
+      <div class="flex flex-wrap gap-3 justify-center mt-8">
+        <a href={u('/tienda')} class="btn btn-primary">Ir a la tienda</a>
+        <a href={u('/')} class="btn btn-ghost">Volver al inicio</a>
+      </div>
+
+      <ul class="flex flex-wrap gap-2 justify-center mt-10 max-w-xl">
+        {categories.slice(0, 6).map((c) => (
+          <li>
+            <a href={u(`/tienda?categoria=${c.slug}`)} class="inline-block px-4 py-2 rounded-full bg-white/70 text-[11px] uppercase tracking-[0.12em] text-wine hover:bg-white transition-colors">
+              {c.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>

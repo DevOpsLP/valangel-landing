@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import { WA_LINK } from '../lib/constants';
+
+const accepted = [
+  'Productos sellados y sin usar, dentro de los 7 días siguientes a la entrega.',
+  'Productos que llegaron dañados, rotos o con el sello violado.',
+  'Productos equivocados: si te enviamos algo distinto a lo que pediste, el cambio y el envío corren por nuestra cuenta.',
+  'Defectos de fábrica detectados en los primeros 30 días (textura alterada, envase defectuoso, producto vencido).',
+];
+
+const notAccepted = [
+  'Productos abiertos o usados, salvo defecto de fábrica. Es una norma sanitaria, no una política comercial.',
+  'Cambios pedidos después de 7 días desde la entrega.',
+  'Productos comprados en promoción de liquidación, marcados como venta final.',
+  'Reacciones de la piel a un ingrediente. No son un defecto del producto — pero escríbenos igual: te ayudamos a reorientar la rutina.',
+];
+
+const steps = [
+  { n: 1, t: 'Escríbenos dentro de los 7 días', d: 'Por WhatsApp, con tu número de pedido y una foto del producto y del lote.' },
+  { n: 2, t: 'Revisamos el caso', d: 'Te respondemos en menos de 24 horas hábiles con la solución concreta.' },
+  { n: 3, t: 'Coordinamos la logística', d: 'Si aplica devolución, te indicamos cómo enviarlo. En errores nuestros, el flete lo pagamos nosotros.' },
+  { n: 4, t: 'Cambio o reembolso', d: 'Cambio por otro producto, nota de crédito o reembolso al mismo método de pago, como prefieras.' },
+];
+---
+
+<Layout
+  title="Cambios y devoluciones | Valangel Skin"
+  description="Qué aceptamos, qué no, y cómo gestionar un cambio o devolución en Valangel Skin."
+  bleed
+>
+  <PageHero
+    eyebrow="Sin letra pequeña"
+    title="Cambios y<br />devoluciones"
+    text="Queremos que compres tranquila. Esto es exactamente lo que cubrimos y lo que no — dicho antes de que compres, no después."
+    tone="cream"
+  />
+
+  <section class="w-full bg-white py-12 sm:py-16">
+    <div class="max-w-3xl mx-auto px-5 sm:px-8 flex flex-col gap-12">
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="border border-line rounded-3xl p-6">
+          <p class="eyebrow text-wine mb-4">Sí aceptamos</p>
+          <ul class="flex flex-col gap-3">
+            {accepted.map((item) => (
+              <li class="flex gap-2.5 text-[13px] text-muted leading-relaxed">
+                <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-mauve shrink-0" aria-hidden="true"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="grad-cream rounded-3xl p-6">
+          <p class="eyebrow mb-4">No podemos aceptar</p>
+          <ul class="flex flex-col gap-3">
+            {notAccepted.map((item) => (
+              <li class="flex gap-2.5 text-[13px] text-muted leading-relaxed">
+                <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-chrome shrink-0" aria-hidden="true"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="display text-2xl sm:text-3xl mb-5">Cómo gestionarlo</h2>
+        <ol class="flex flex-col gap-4">
+          {steps.map((s) => (
+            <li class="flex gap-4 items-start">
+              <span class="w-8 h-8 shrink-0 rounded-full grad-rose grid place-items-center text-wine text-[13px] font-[family-name:var(--font-display)]">{s.n}</span>
+              <span class="flex flex-col gap-1">
+                <span class="text-[15px] text-ink">{s.t}</span>
+                <span class="text-[13px] text-muted leading-relaxed">{s.d}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="border border-line rounded-3xl p-6 flex flex-col gap-3">
+        <h2 class="font-[family-name:var(--font-display)] text-xl">¿Tienes un caso ahora?</h2>
+        <p class="text-[13px] text-muted leading-relaxed">
+          Ten a mano tu número de pedido y una foto del producto con su código de lote visible.
+          Así lo resolvemos en un solo mensaje.
+        </p>
+        <a href={WA_LINK} target="_blank" rel="noreferrer" class="btn btn-primary self-start mt-1">Abrir un caso</a>
+      </div>
+    </div>
+  </section>
+</Layout>

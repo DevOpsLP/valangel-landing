@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/home/Hero';
+import TrustBar from '../components/home/TrustBar.astro';
+import CategoryCircles from '../components/home/CategoryCircles.astro';
+import BrandStrip from '../components/home/BrandStrip.astro';
+import EditorialTriptych from '../components/home/EditorialTriptych.astro';
+import RoutineBuilder from '../components/home/RoutineBuilder.astro';
+import SectionHeading from '../components/home/SectionHeading.astro';
+import FeaturedRail from '../components/shop/FeaturedRail';
+import { BRAND } from '../lib/constants';
+---
+
+<Layout
+  title={`${BRAND.name} — ${BRAND.claim}`}
+  description="Skincare coreano original en Venezuela. Limpiadores, sueros, protectores solares y rutinas personalizadas con envío a todo el país. Made to glow."
+  bleed
+>
+  <Hero client:load />
+  <TrustBar />
+  <CategoryCircles />
+  <BrandStrip />
+
+  <!-- ── Best sellers ─────────────────────────────────────────────── -->
+  <section class="w-full bg-white py-12 sm:py-16 lg:py-20" aria-labelledby="bestsellers-title">
+    <div class="max-w-[1400px] mx-auto pl-5 sm:pl-8 lg:pl-12">
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        <div id="bestsellers-title" class="pr-5 sm:pr-8 lg:pr-0">
+          <SectionHeading
+            title="Best<br />sellers"
+            text="Lo que nuestra comunidad ama."
+            ctaLabel="Ver todos"
+            ctaHref="/tienda"
+          />
+        </div>
+        <div class="flex-1 min-w-0">
+          <FeaturedRail client:visible mode="best-sellers" limit={10} label="Productos más vendidos" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <EditorialTriptych />
+  <RoutineBuilder />
+
+  <!-- ── Accesorios ───────────────────────────────────────────────── -->
+  <section class="w-full grad-cream py-12 sm:py-16 lg:py-20" aria-labelledby="accesorios-title">
+    <div class="max-w-[1400px] mx-auto pl-5 sm:pl-8 lg:pl-12">
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        <div id="accesorios-title" class="pr-5 sm:pr-8 lg:pr-0">
+          <SectionHeading
+            title="Accesorios<br />que amas"
+            text="Pequeños detalles, grandes resultados."
+            ctaLabel="Ver todos"
+            ctaHref="/tienda?categoria=accesorios"
+          />
+        </div>
+        <div class="flex-1 min-w-0">
+          <FeaturedRail client:visible mode="accesorios" limit={8} label="Accesorios de skincare" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

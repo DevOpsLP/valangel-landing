@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import { WA_LINK } from '../lib/constants';
+import { FREE_SHIPPING_THRESHOLD } from '../lib/cart';
+import { u } from '../lib/url';
+
+const zones = [
+  { zone: 'Valencia (delivery propio)', time: 'Mismo día', note: 'Pedidos confirmados antes de las 2:00 p. m.' },
+  { zone: 'Caracas, Maracay, Maracaibo', time: '24 – 48 h', note: 'Zoom o MRW, puerta a puerta' },
+  { zone: 'Capitales de estado', time: '48 – 72 h', note: 'Zoom, MRW o Tealca' },
+  { zone: 'Resto del país', time: '3 – 4 días hábiles', note: 'Retiro en oficina de la agencia' },
+];
+
+const steps = [
+  { n: 1, t: 'Armas tu pedido', d: 'Agregas productos a la bolsa y completas tus datos en el checkout.' },
+  { n: 2, t: 'Confirmamos por WhatsApp', d: 'Verificamos disponibilidad, calculamos el envío y te enviamos los datos de pago.' },
+  { n: 3, t: 'Pagas y despachamos', d: 'Con el pago confirmado despachamos el mismo día o el siguiente día hábil.' },
+  { n: 4, t: 'Sigues tu paquete', d: 'Te compartimos el número de guía para que lo rastrees hasta tu puerta.' },
+];
+---
+
+<Layout
+  title="Envíos | Valangel Skin"
+  description="Enviamos a todo Venezuela por Zoom, MRW y Tealca, con delivery propio en Valencia. Tiempos, costos y cómo funciona."
+  bleed
+>
+  <PageHero
+    eyebrow="A todo el país"
+    title="Envíos"
+    text="Despachamos desde Valencia a las 24 entidades del país. Estos son los tiempos reales, no los optimistas."
+    tone="cream"
+  />
+
+  <section class="w-full bg-white py-12 sm:py-16">
+    <div class="max-w-3xl mx-auto px-5 sm:px-8 flex flex-col gap-12">
+      <div>
+        <h2 class="display text-2xl sm:text-3xl mb-5">Tiempos de entrega</h2>
+        <!-- Scrolls horizontally on narrow screens instead of squashing columns -->
+        <div class="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
+          <table class="w-full min-w-[480px] text-left border-collapse">
+            <thead>
+              <tr class="border-b border-line">
+                <th scope="col" class="py-3 pr-4 eyebrow font-normal">Zona</th>
+                <th scope="col" class="py-3 pr-4 eyebrow font-normal">Tiempo</th>
+                <th scope="col" class="py-3 eyebrow font-normal">Detalle</th>
+              </tr>
+            </thead>
+            <tbody>
+              {zones.map((z) => (
+                <tr class="border-b border-line align-top">
+                  <td class="py-4 pr-4 text-[13px] text-ink">{z.zone}</td>
+                  <td class="py-4 pr-4 text-[13px] text-wine whitespace-nowrap">{z.time}</td>
+                  <td class="py-4 text-[13px] text-muted">{z.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="text-[12px] text-muted mt-4 leading-relaxed">
+          Los tiempos empiezan a contar desde que confirmamos el pago. Días hábiles, sin contar feriados nacionales.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="display text-2xl sm:text-3xl mb-5">Costos</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="grad-rose rounded-3xl p-6">
+            <p class="eyebrow text-wine/70">Envío gratis</p>
+            <p class="display text-3xl mt-2">Desde ${FREE_SHIPPING_THRESHOLD}</p>
+            <p class="text-[13px] text-ink/70 mt-2 leading-relaxed">
+              En pedidos iguales o mayores a ${FREE_SHIPPING_THRESHOLD} USD, el envío nacional va por nuestra cuenta.
+            </p>
+          </div>
+          <div class="border border-line rounded-3xl p-6">
+            <p class="eyebrow">Por debajo de ${FREE_SHIPPING_THRESHOLD}</p>
+            <p class="text-[13px] text-muted mt-3 leading-relaxed">
+              El costo depende de la agencia, el destino y el peso del paquete. Te lo confirmamos por WhatsApp
+              <strong class="text-ink font-medium">antes</strong> de que pagues — nunca hay sorpresas al final.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="display text-2xl sm:text-3xl mb-5">Cómo funciona</h2>
+        <ol class="flex flex-col gap-4">
+          {steps.map((s) => (
+            <li class="flex gap-4 items-start">
+              <span class="w-8 h-8 shrink-0 rounded-full grad-rose grid place-items-center text-wine text-[13px] font-[family-name:var(--font-display)]">{s.n}</span>
+              <span class="flex flex-col gap-1">
+                <span class="text-[15px] text-ink">{s.t}</span>
+                <span class="text-[13px] text-muted leading-relaxed">{s.d}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="border border-line rounded-3xl p-6 flex flex-col gap-3">
+        <h2 class="font-[family-name:var(--font-display)] text-xl">¿Tu paquete no llegó a tiempo?</h2>
+        <p class="text-[13px] text-muted leading-relaxed">
+          Escríbenos con tu número de guía y lo rastreamos contigo. Si el paquete se extravió en la agencia,
+          gestionamos el reclamo y reponemos tu pedido.
+        </p>
+        <div class="flex flex-wrap gap-3 mt-1">
+          <a href={WA_LINK} target="_blank" rel="noreferrer" class="btn btn-primary">Escribir por WhatsApp</a>
+          <a href={u('/cambios-y-devoluciones')} class="btn btn-ghost">Cambios y devoluciones</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

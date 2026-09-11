@@ -1,0 +1,160 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import { BRAND, WA_LINK } from '../lib/constants';
+
+const updated = '11 de septiembre de 2026';
+
+const sections = [
+  {
+    id: 'general',
+    title: '1. Quiénes somos',
+    body: [
+      `${BRAND.name} es una tienda de productos de cuidado de la piel con operación en ${BRAND.city}. Estos términos regulan la compra de productos a través de este sitio y de nuestros canales de atención (WhatsApp, correo y redes sociales).`,
+      'Al realizar un pedido aceptas estas condiciones. Si algo no te queda claro, escríbenos antes de comprar y lo resolvemos.',
+    ],
+  },
+  {
+    id: 'pedidos',
+    title: '2. Pedidos y confirmación',
+    body: [
+      'El sitio no procesa pagos en línea. Al finalizar tu pedido se genera un mensaje de WhatsApp con el detalle, que envías a nuestra asesora.',
+      'Un pedido queda confirmado únicamente cuando verificamos la disponibilidad de los productos y recibimos el pago. Hasta ese momento no existe reserva de inventario.',
+      'Si un producto se agota entre tu pedido y la confirmación, te lo informamos y puedes elegir entre sustituirlo, esperar el próximo lote o recibir el reembolso completo.',
+    ],
+  },
+  {
+    id: 'precios',
+    title: '3. Precios y moneda',
+    body: [
+      'Los precios se muestran en dólares estadounidenses (USD). El equivalente en bolívares es referencial y se calcula con la tasa oficial del Banco Central de Venezuela vigente el día de la consulta.',
+      'El monto definitivo en bolívares se fija en el momento del pago, con la tasa BCV de ese día. Los precios pueden cambiar sin aviso previo; el precio aplicable es el confirmado por escrito al momento de tu pedido.',
+      'Los precios no incluyen el costo de envío, salvo que se indique lo contrario o que tu pedido alcance el monto para envío gratuito.',
+    ],
+  },
+  {
+    id: 'pagos',
+    title: '4. Métodos de pago',
+    body: [
+      'Aceptamos pago móvil, transferencia bancaria nacional, Zelle, Binance (USDT) y efectivo en divisas para entregas presenciales en Valencia.',
+      'Los datos de pago se entregan únicamente por nuestros canales oficiales. Nunca solicitamos claves, códigos de verificación ni acceso a tu banca en línea. Verifica siempre que estés escribiendo al número publicado en este sitio.',
+    ],
+  },
+  {
+    id: 'envios',
+    title: '5. Envíos',
+    body: [
+      'Despachamos a todo el territorio nacional mediante empresas de encomienda (Zoom, MRW, Tealca) y con delivery propio dentro de Valencia.',
+      'Los tiempos publicados son estimados y empiezan a contar desde la confirmación del pago. No controlamos los retrasos atribuibles a la empresa de encomienda, pero gestionamos contigo cualquier reclamo.',
+      'El riesgo de pérdida se transfiere al momento de la entrega. Si el paquete se extravía en tránsito, tramitamos el reclamo ante la agencia y reponemos tu pedido.',
+    ],
+  },
+  {
+    id: 'devoluciones',
+    title: '6. Cambios y devoluciones',
+    body: [
+      'Aceptamos cambios de productos sellados y sin usar dentro de los 7 días siguientes a la entrega, así como devoluciones por defecto de fábrica, producto equivocado o daño en tránsito.',
+      'Por normativa sanitaria no podemos aceptar devoluciones de productos cosméticos abiertos o usados, salvo defecto de fábrica comprobable.',
+      'El detalle completo del procedimiento está en la página de cambios y devoluciones.',
+    ],
+  },
+  {
+    id: 'productos',
+    title: '7. Sobre los productos',
+    body: [
+      'Comercializamos productos cosméticos de cuidado personal. No son medicamentos y no están destinados a diagnosticar, tratar, curar ni prevenir ninguna enfermedad.',
+      'La información de este sitio, del blog y del creador de rutinas tiene fines informativos y no sustituye la consulta con un dermatólogo o profesional de la salud. Ante una condición de la piel diagnosticada, embarazo, lactancia o tratamiento médico en curso, consulta a tu médico antes de incorporar un producto nuevo.',
+      'Realiza siempre una prueba de tolerancia en una zona pequeña antes del primer uso. Suspende el uso si aparece irritación persistente.',
+    ],
+  },
+  {
+    id: 'privacidad',
+    title: '8. Datos personales',
+    body: [
+      'Para procesar tu pedido recogemos tu nombre, número de teléfono y dirección de entrega. Si te suscribes al boletín, también tu correo electrónico.',
+      'Usamos estos datos únicamente para gestionar el pedido, coordinar la entrega y, si lo autorizaste, enviarte comunicaciones comerciales. No vendemos ni cedemos tus datos a terceros con fines publicitarios.',
+      'Compartimos con la empresa de encomienda solo lo imprescindible para entregar tu paquete: nombre, teléfono y dirección.',
+      'Tus datos de contacto y direcciones se guardan además en el almacenamiento local de tu navegador, en tu propio dispositivo, para que no tengas que escribirlos de nuevo. Puedes borrarlos en cualquier momento limpiando los datos del sitio.',
+      'Puedes solicitar el acceso, la rectificación o la eliminación de tus datos escribiéndonos por cualquiera de nuestros canales de atención.',
+    ],
+  },
+  {
+    id: 'cookies',
+    title: '9. Cookies y tecnologías similares',
+    body: [
+      'Este sitio no utiliza cookies publicitarias ni de seguimiento entre sitios.',
+      'Sí utilizamos el almacenamiento local del navegador para recordar el contenido de tu bolsa de compras, tu lista de favoritos y tus datos de envío. Esta información permanece en tu dispositivo.',
+      'Cargamos tipografías desde Google Fonts e imágenes desde Unsplash; ambos servicios pueden registrar la dirección IP de la solicitud conforme a sus propias políticas.',
+    ],
+  },
+  {
+    id: 'propiedad',
+    title: '10. Propiedad intelectual',
+    body: [
+      `Los textos, la identidad visual y el diseño de este sitio pertenecen a ${BRAND.name}. Las marcas de los productos comercializados pertenecen a sus respectivos titulares y se muestran únicamente con fines identificativos.`,
+    ],
+  },
+  {
+    id: 'cambios',
+    title: '11. Cambios en estos términos',
+    body: [
+      'Podemos actualizar estos términos para reflejar cambios en nuestra operación o en la normativa aplicable. La versión vigente es siempre la publicada en esta página, con su fecha de actualización.',
+      'Las condiciones aplicables a tu compra son las vigentes en el momento en que confirmamos tu pedido.',
+    ],
+  },
+  {
+    id: 'ley',
+    title: '12. Ley aplicable',
+    body: [
+      'Estos términos se rigen por las leyes de la República Bolivariana de Venezuela. Cualquier controversia se intentará resolver de buena fe por vía directa antes de acudir a los tribunales competentes.',
+    ],
+  },
+];
+---
+
+<Layout
+  title="Términos y condiciones | Valangel Skin"
+  description="Términos de compra, política de privacidad y uso de datos de Valangel Skin."
+  bleed
+>
+  <PageHero
+    eyebrow={`Actualizado el ${updated}`}
+    title="Términos y<br />condiciones"
+    text="Escritos para que se entiendan. Si algo te parece confuso o injusto, dínoslo y lo revisamos."
+    tone="cream"
+  />
+
+  <section class="w-full bg-white py-12 sm:py-16">
+    <div class="max-w-3xl mx-auto px-5 sm:px-8">
+      <nav aria-label="Índice" class="mb-10 border border-line rounded-3xl p-5">
+        <p class="eyebrow mb-3">En esta página</p>
+        <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-2">
+          {sections.map((s) => (
+            <li>
+              <a href={`#${s.id}`} class="text-[13px] text-muted hover:text-wine transition-colors">{s.title}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="flex flex-col gap-10">
+        {sections.map((s) => (
+          <section id={s.id} class="scroll-mt-32">
+            <h2 class="font-[family-name:var(--font-display)] text-xl sm:text-2xl mb-3">{s.title}</h2>
+            <div class="flex flex-col gap-3">
+              {s.body.map((p) => <p class="text-[14px] text-muted leading-relaxed">{p}</p>)}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <div class="mt-12 border border-line rounded-3xl p-6 flex flex-col gap-3">
+        <h2 class="font-[family-name:var(--font-display)] text-xl">¿Una duda sobre estas condiciones?</h2>
+        <p class="text-[13px] text-muted leading-relaxed">
+          Escríbenos y te respondemos con claridad, sin remitirte a un párrafo.
+        </p>
+        <a href={WA_LINK} target="_blank" rel="noreferrer" class="btn btn-primary self-start mt-1">Escribir por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</Layout>

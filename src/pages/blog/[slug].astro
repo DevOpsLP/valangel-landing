@@ -1,0 +1,124 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { posts } from '../../lib/content';
+import { unsplash } from '../../lib/catalog';
+import { u } from '../../lib/url';
+import FeaturedRail from '../../components/shop/FeaturedRail';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const fmt = (iso: string) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString('es-VE', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
+
+/**
+ * Minimal markdown → HTML for the bundled posts. The bodies are authored here,
+ * so this only needs to cover what they actually use: headings, lists,
+ * blockquotes, bold and paragraphs.
+ */
+function renderMarkdown(md: string): string {
+  const escape = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const inline = (t: string) =>
+    escape(t)
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  const out: string[] = [];
+  let list: 'ul' | 'ol' | null = null;
+  const closeList = () => { if (list) { out.push(`</${list}>`); list = null; } };
+
+  for (const raw of md.split('\n')) {
+    const line = raw.trim();
+    if (!line) { closeList(); continue; }
+
+    const h = /^(#{2,3})\s+(.*)$/.exec(line);
+    if (h) { closeList(); out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`); continue; }
+
+    if (line.startsWith('> ')) { closeList(); out.push(`<blockquote><p>${inline(line.slice(2))}</p></blockquote>`); continue; }
+
+    const ol = /^(\d+)\.\s+(.*)$/.exec(line);
+    if (ol) { if (list !== 'ol') { closeList(); out.push('<ol>'); list = 'ol'; } out.push(`<li>${inline(ol[2])}</li>`); continue; }
+
+    if (line.startsWith('- ')) { if (list !== 'ul') { closeList(); out.push('<ul>'); list = 'ul'; } out.push(`<li>${inline(line.slice(2))}</li>`); continue; }
+
+    closeList();
+    out.push(`<p>${inline(line)}</p>`);
+  }
+  closeList();
+  return out.join('\n');
+}
+
+const html = renderMarkdown(post.body);
+---
+
+<Layout title={`${post.title} | Valangel Skin`} description={post.excerpt} bleed ogImage={unsplash(post.image, 1200)}>
+  <article>
+    <header class="w-full grad-cream">
+      <div class="max-w-3xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
+        <nav aria-label="Migas de pan" class="mb-6">
+          <ol class="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-muted">
+            <li><a href={u('/')} class="hover:text-wine transition-colors">Inicio</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href={u('/blog')} class="hover:text-wine transition-colors">Blog</a></li>
+          </ol>
+        </nav>
+        <p class="eyebrow">{post.category} · {post.readingMinutes} min de lectura</p>
+        <h1 class="display text-3xl sm:text-4xl lg:text-5xl mt-3 text-balance">{post.title}</h1>
+        <p class="mt-4 text-[15px] text-muted leading-relaxed">{post.excerpt}</p>
+        <p class="mt-4 text-[11px] uppercase tracking-[0.16em] text-taupe">{fmt(post.date)}</p>
+      </div>
+    </header>
+
+    <div class="max-w-3xl mx-auto px-5 sm:px-8">
+      <img
+        src={unsplash(post.image, 1100, 620)}
+        alt=""
+        class="w-full rounded-3xl -mt-4 sm:-mt-8 mb-10 aspect-[16/9] object-cover"
+        loading="eager"
+      />
+
+      <div
+        class="prose prose-sm sm:prose-base max-w-none pb-12
+               prose-headings:font-[family-name:var(--font-display)] prose-headings:text-wine prose-headings:font-medium
+               prose-h2:text-2xl prose-h2:mt-10 prose-h3:text-xl
+               prose-p:text-ink/80 prose-p:leading-relaxed
+               prose-strong:text-ink prose-strong:font-medium
+               prose-li:text-ink/80 prose-li:marker:text-mauve
+               prose-blockquote:border-l-2 prose-blockquote:border-mauve prose-blockquote:not-italic
+               prose-blockquote:text-muted prose-blockquote:font-[family-name:var(--font-accent)] prose-blockquote:text-lg"
+        set:html={html}
+      />
+    </div>
+  </article>
+
+  <!-- Shop the story -->
+  <section class="w-full grad-cream py-12 sm:py-16" aria-labelledby="post-shop-title">
+    <div class="max-w-[1400px] mx-auto pl-5 sm:pl-8 lg:pl-12">
+      <h2 id="post-shop-title" class="display text-2xl sm:text-3xl mb-6 pr-5">Productos mencionados</h2>
+      <FeaturedRail client:visible mode="best-sellers" limit={8} label="Productos recomendados" />
+    </div>
+  </section>
+
+  <section class="w-full bg-white py-12 sm:py-16">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+      <h2 class="display text-2xl sm:text-3xl mb-6">Sigue leyendo</h2>
+      <ul class="grid sm:grid-cols-3 gap-x-6 gap-y-8">
+        {related.map((p) => (
+          <li>
+            <a href={u(`/blog/${p.slug}`)} class="group flex flex-col gap-3">
+              <span class="block rounded-2xl overflow-hidden aspect-[4/3] grad-cream">
+                <img src={unsplash(p.image, 500, 375)} alt="" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              </span>
+              <span class="eyebrow">{p.category}</span>
+              <h3 class="font-[family-name:var(--font-display)] text-lg leading-snug group-hover:text-cocoa transition-colors">{p.title}</h3>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>

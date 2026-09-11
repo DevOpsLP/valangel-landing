@@ -1,0 +1,62 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import { brands, fallbackProducts, unsplash, PHOTO } from '../../lib/catalog';
+import { u } from '../../lib/url';
+
+// Fallback counts give each card something concrete before the CMS answers.
+const countFor = (slug: string) => fallbackProducts.filter((p) => p.brand?.slug === slug).length;
+
+const COVERS = [
+  PHOTO.dropperWhite, PHOTO.creamTube, PHOTO.bottlesFour, PHOTO.cleanserTube, PHOTO.lipFlatlay,
+  PHOTO.pedestals, PHOTO.bodyOil, PHOTO.serumTrio, PHOTO.maskBox, PHOTO.blackJars,
+];
+---
+
+<Layout
+  title="Marcas | Valangel Skin"
+  description="Anua, medicube, SKIN1004, Dr. Althea, rhode, TOCOBO, celimax, Beauty of Joseon, numbuzin y PURITO — originales, importadas directamente."
+  bleed
+>
+  <PageHero
+    eyebrow="100 % originales"
+    title="Nuestras<br />marcas"
+    text="Trabajamos con importación directa y verificamos el lote de cada unidad que entra. Estas son las casas que elegimos, y por qué."
+    tone="cream"
+  />
+
+  <section class="w-full bg-white py-12 sm:py-16">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {brands.map((b, i) => (
+          <li>
+            <a href={u(`/marcas/${b.slug}`)} class="group flex flex-col h-full rounded-3xl overflow-hidden border border-line hover:border-taupe transition-colors">
+              <span class="relative block aspect-[16/10] overflow-hidden grad-cream">
+                <img
+                  src={unsplash(COVERS[i % COVERS.length], 700, 440)}
+                  alt=""
+                  loading="lazy"
+                  class="w-full h-full object-cover transition-transform duration-[900ms] group-hover:scale-105"
+                />
+              </span>
+              <span class="flex flex-col gap-2 p-5 flex-1">
+                <span class="flex items-baseline justify-between gap-3">
+                  <span class="font-[family-name:var(--font-display)] text-xl text-wine">{b.name}</span>
+                  <span class="text-[10px] uppercase tracking-[0.14em] text-taupe shrink-0">{b.origin}</span>
+                </span>
+                <span class="text-[13px] text-muted leading-relaxed">{b.blurb}</span>
+                <span class="mt-auto pt-3 text-[11px] uppercase tracking-[0.16em] text-wine inline-flex items-center gap-2">
+                  Ver productos
+                  {countFor(b.slug) > 0 && <span class="text-muted normal-case tracking-normal">({countFor(b.slug)})</span>}
+                  <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 transition-transform duration-500 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,47 @@
+---
+import { unsplash, PHOTO } from '../../lib/catalog';
+import { u } from '../../lib/url';
+---
+
+<section class="w-full" aria-label="Editorial">
+  <div class="grid sm:grid-cols-3">
+    <!-- Panel 1: texture + collection link -->
+    <a href={u('/tienda')} class="group relative grad-silk min-h-[240px] sm:min-h-[320px] lg:min-h-[380px] flex flex-col justify-center px-7 sm:px-8 py-10 overflow-hidden">
+      <div class="relative z-10">
+        <h3 class="display text-3xl sm:text-4xl">K-Beauty</h3>
+        <p class="eyebrow mt-3 !text-[10px] text-wine/70 leading-relaxed">
+          Resultados reales<br />Rutinas que amas
+        </p>
+        <span class="inline-flex items-center gap-2 mt-6 text-[11px] uppercase tracking-[0.18em] text-wine">
+          Ver colección
+          <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 transition-transform duration-500 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Panel 2: photo + overlaid quote -->
+    <div class="relative min-h-[280px] sm:min-h-[320px] lg:min-h-[380px] overflow-hidden">
+      <img
+        src={unsplash(PHOTO.beautyCloseup, 900, 900)}
+        alt="Rostro con piel luminosa"
+        loading="lazy"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-wine/55 via-wine/15 to-transparent"></div>
+      <p class="absolute inset-x-0 bottom-0 p-7 sm:p-8 text-white font-[family-name:var(--font-display)] text-xl sm:text-2xl leading-snug text-balance">
+        Una piel más radiante también es una versión más feliz de ti.
+        <span class="block mt-3 text-base opacity-80" aria-hidden="true">✦</span>
+      </p>
+    </div>
+
+    <!-- Panel 3: statement -->
+    <div class="grad-rose min-h-[200px] sm:min-h-[320px] lg:min-h-[380px] grid place-items-center px-7 py-10 text-center">
+      <p class="display text-2xl sm:text-3xl lg:text-4xl leading-tight max-w-[10ch]">
+        Skincare is a form of self-love.
+        <span class="block mt-4 text-lg text-champagne" aria-hidden="true">✦</span>
+      </p>
+    </div>
+  </div>
+</section>

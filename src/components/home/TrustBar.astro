@@ -1,0 +1,31 @@
+---
+import { valueProps } from '../../lib/content';
+import { DiamondIcon, TruckIcon, CardIcon, HeartOutlineIcon } from '../ui/icons';
+
+const ICONS = { diamond: DiamondIcon, truck: TruckIcon, card: CardIcon, heart: HeartOutlineIcon } as const;
+---
+
+<section class="w-full bg-white border-y border-line" aria-label="Por qué comprar en Valangel Skin">
+  <!-- Scrolls horizontally on phones instead of cramming four columns -->
+  <div class="max-w-[1400px] mx-auto rail sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-0 px-5 sm:px-8 lg:px-12">
+    {valueProps.map((prop, i) => {
+      const Icon = ICONS[prop.icon];
+      return (
+        <div
+          class:list={[
+            'flex items-center gap-3.5 py-6 pr-8 sm:pr-4 min-w-[72%] sm:min-w-0',
+            i > 0 && 'lg:border-l lg:border-line lg:pl-6',
+          ]}
+        >
+          <span class="w-8 h-8 shrink-0 text-taupe">
+            <Icon />
+          </span>
+          <span class="flex flex-col gap-0.5 min-w-0">
+            <span class="text-[11px] uppercase tracking-[0.16em] text-ink">{prop.title}</span>
+            <span class="text-[11px] text-muted leading-snug">{prop.text}</span>
+          </span>
+        </div>
+      );
+    })}
+  </div>
+</section>

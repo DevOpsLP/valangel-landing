@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import Accordion from '../components/ui/Accordion.astro';
+import { faqs } from '../lib/content';
+import { BRAND, WA_LINK, WA_NUMBER } from '../lib/constants';
+import { SocialIcon, WhatsAppIcon } from '../components/ui/icons';
+import { unsplash, PHOTO } from '../lib/catalog';
+
+const prettyPhone = `+${WA_NUMBER.slice(0, 2)} ${WA_NUMBER.slice(2, 5)} ${WA_NUMBER.slice(5)}`;
+
+const channels = [
+  { label: 'WhatsApp', value: prettyPhone, href: WA_LINK, note: 'Lun a sáb, 9:00 a. m. – 7:00 p. m.' },
+  { label: 'Correo', value: BRAND.email, href: `mailto:${BRAND.email}`, note: 'Respondemos en menos de 24 h' },
+  { label: 'Instagram', value: '@valangelskin', href: BRAND.instagram, note: 'DM abierto para dudas rápidas' },
+];
+---
+
+<Layout
+  title="Contacto | Valangel Skin"
+  description="Escríbenos por WhatsApp, correo o Instagram. Asesoría de skincare sin compromiso, desde Valencia para toda Venezuela."
+  bleed
+>
+  <PageHero
+    eyebrow="Estamos del otro lado"
+    title="Hablemos<br />de tu piel"
+    text="Cuéntanos qué usas hoy y qué te gustaría mejorar. Te respondemos con una recomendación real — no con un catálogo."
+    tone="cream"
+  />
+
+  <section class="w-full bg-white py-12 sm:py-16">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 grid lg:grid-cols-[1fr_0.9fr] gap-10 lg:gap-16 items-start">
+      <div>
+        <ul class="flex flex-col divide-y divide-line border-y border-line">
+          {channels.map((c) => (
+            <li>
+              <a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer" class="group flex items-center justify-between gap-4 py-5">
+                <span class="flex flex-col gap-1 min-w-0">
+                  <span class="eyebrow">{c.label}</span>
+                  <span class="text-[15px] text-ink group-hover:text-wine transition-colors truncate">{c.value}</span>
+                  <span class="text-[11px] text-muted">{c.note}</span>
+                </span>
+                <span class="w-9 h-9 shrink-0 grid place-items-center rounded-full border border-line text-taupe group-hover:bg-rose-light group-hover:text-wine transition-colors">
+                  <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div class="mt-8 flex flex-col gap-4">
+          <div>
+            <p class="eyebrow mb-2">Dónde estamos</p>
+            <p class="text-[15px] text-ink">{BRAND.city}</p>
+            <p class="text-[13px] text-muted mt-1 leading-relaxed">
+              Atendemos con cita previa y hacemos delivery propio dentro de Valencia.
+              Para el resto del país despachamos por Zoom, MRW y Tealca.
+            </p>
+          </div>
+
+          <div>
+            <p class="eyebrow mb-3">Síguenos</p>
+            <div class="flex gap-1.5">
+              {(['instagram', 'tiktok', 'facebook', 'youtube', 'pinterest'] as const).map((n) => (
+                <a href={BRAND[n]} target="_blank" rel="noreferrer" aria-label={`Valangel Skin en ${n}`} class="w-10 h-10 grid place-items-center rounded-full border border-line text-taupe hover:text-wine hover:bg-rose-light transition-colors">
+                  <SocialIcon name={n} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <a href={WA_LINK} target="_blank" rel="noreferrer" class="btn w-full sm:w-auto self-start bg-[#25D366] text-white hover:brightness-95 mt-2">
+            <WhatsAppIcon className="w-4 h-4" />
+            Abrir WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <img
+        src={unsplash(PHOTO.handsJar, 800, 900)}
+        alt="Asesoría personalizada de skincare"
+        loading="lazy"
+        class="w-full rounded-3xl object-cover aspect-[4/5] hidden lg:block"
+      />
+    </div>
+  </section>
+
+  <section id="faq" class="w-full grad-cream py-12 sm:py-16 scroll-mt-32" aria-labelledby="faq-title">
+    <div class="max-w-3xl mx-auto px-5 sm:px-8">
+      <p class="eyebrow">Antes de escribir</p>
+      <h2 id="faq-title" class="display text-3xl sm:text-4xl mt-2 mb-8">Preguntas frecuentes</h2>
+      <Accordion items={faqs} />
+    </div>
+  </section>
+</Layout>

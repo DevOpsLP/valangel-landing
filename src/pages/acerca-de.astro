@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import { unsplash, PHOTO } from '../lib/catalog';
+import { valueProps } from '../lib/content';
+import { DiamondIcon, TruckIcon, CardIcon, HeartOutlineIcon } from '../components/ui/icons';
+import { BRAND, WA_LINK } from '../lib/constants';
+import { u } from '../lib/url';
+
+const ICONS = { diamond: DiamondIcon, truck: TruckIcon, card: CardIcon, heart: HeartOutlineIcon } as const;
+
+const pillars = [
+  {
+    title: 'Originales, siempre',
+    text: 'Importación directa y verificación del código de lote de cada unidad. Si algo no cuadra, no entra a la tienda.',
+  },
+  {
+    title: 'Asesoría honesta',
+    text: 'A veces la mejor recomendación es no comprar nada. Preferimos una clienta que vuelva a una venta de una sola vez.',
+  },
+  {
+    title: 'Rutinas, no productos sueltos',
+    text: 'Un sérum caro no arregla una barrera dañada. Armamos rutinas completas y realistas para tu presupuesto.',
+  },
+];
+---
+
+<Layout
+  title="Acerca de | Valangel Skin"
+  description="Quiénes somos: skincare original, asesoría honesta y envíos a todo el país desde Valencia, Venezuela."
+  bleed
+>
+  <PageHero
+    eyebrow="Nuestra esencia"
+    title="Femenina.<br />Elegante.<br />Exclusiva. Real."
+    text="Valangel Skin nació de una idea sencilla: que cuidar tu piel en Venezuela no tenga que ser complicado, caro, ni un salto de fe sobre si el producto es auténtico."
+    tone="rose"
+  />
+
+  <section class="w-full bg-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div class="flex flex-col gap-5">
+        <p class="eyebrow">La historia</p>
+        <h2 class="display text-3xl sm:text-4xl">Empezamos respondiendo mensajes</h2>
+        <div class="flex flex-col gap-4 text-[15px] text-ink/80 leading-relaxed">
+          <p>
+            Al principio éramos una cuenta de Instagram contestando preguntas: qué sirve para las manchas,
+            por qué arde la vitamina C, si vale la pena un protector solar de treinta dólares.
+          </p>
+          <p>
+            La pregunta que más se repetía no era sobre ingredientes. Era <em>"¿cómo sé que es original?"</em>.
+            Ahí entendimos que hacía falta una tienda que respondiera eso con hechos y no con promesas.
+          </p>
+          <p>
+            Hoy traemos K-beauty y skincare seleccionado desde {BRAND.city}, con envío a las 24 entidades del
+            país y una asesora real del otro lado del chat.
+          </p>
+        </div>
+        <a href={WA_LINK} target="_blank" rel="noreferrer" class="btn btn-primary self-start mt-2">Escríbenos</a>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <img src={unsplash(PHOTO.facialMask, 500, 640)} alt="Ritual de cuidado facial" loading="lazy" class="w-full h-full object-cover rounded-3xl aspect-[4/5]" />
+        <div class="flex flex-col gap-3">
+          <img src={unsplash(PHOTO.serumTrio, 500, 400)} alt="Sueros originales" loading="lazy" class="w-full object-cover rounded-3xl aspect-square" />
+          <div class="grad-rose rounded-3xl p-5 flex-1 grid place-items-center text-center">
+            <p class="script text-xl leading-snug text-wine">Skincare<br />for a more<br />radiant you</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="w-full grad-cream py-12 sm:py-16 lg:py-20" aria-labelledby="pilares-title">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+      <h2 id="pilares-title" class="display text-3xl sm:text-4xl max-w-[14ch]">En qué no transigimos</h2>
+      <ul class="mt-8 grid sm:grid-cols-3 gap-5">
+        {pillars.map((p, i) => (
+          <li class="bg-white border border-line rounded-3xl p-6 flex flex-col gap-3">
+            <span class="font-[family-name:var(--font-display)] text-3xl text-mauve">0{i + 1}</span>
+            <h3 class="font-[family-name:var(--font-display)] text-xl">{p.title}</h3>
+            <p class="text-[13px] text-muted leading-relaxed">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="w-full bg-white py-12 sm:py-16" aria-label="Compromisos">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {valueProps.map((prop) => {
+        const Icon = ICONS[prop.icon];
+        return (
+          <div class="flex flex-col gap-3">
+            <span class="w-8 h-8 text-taupe"><Icon /></span>
+            <span class="text-[13px] uppercase tracking-[0.14em] text-ink">{prop.title}</span>
+            <span class="text-[13px] text-muted leading-relaxed">{prop.text}</span>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="w-full grad-rose py-14 sm:py-20">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 text-center flex flex-col items-center">
+      <p class="display text-3xl sm:text-5xl max-w-[16ch] text-balance">
+        Una piel más luminosa también es una versión más feliz de ti.
+      </p>
+      <span class="text-champagne text-2xl mt-5" aria-hidden="true">✦</span>
+      <a href={u('/tienda')} class="btn btn-primary mt-8">Explorar la tienda</a>
+    </div>
+  </section>
+</Layout>

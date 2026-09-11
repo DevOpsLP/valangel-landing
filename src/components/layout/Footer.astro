@@ -1,0 +1,122 @@
+---
+import Logo from '../ui/Logo';
+import { SocialIcon } from '../ui/icons';
+import { footerNav } from '../../lib/nav';
+import { BRAND, WA_LINK } from '../../lib/constants';
+import { u } from '../../lib/url';
+import NewsletterForm from '../home/NewsletterForm';
+import { unsplash, PHOTO } from '../../lib/catalog';
+
+const socials = [
+  { name: 'instagram', href: BRAND.instagram, label: 'Instagram' },
+  { name: 'tiktok', href: BRAND.tiktok, label: 'TikTok' },
+  { name: 'facebook', href: BRAND.facebook, label: 'Facebook' },
+  { name: 'youtube', href: BRAND.youtube, label: 'YouTube' },
+  { name: 'pinterest', href: BRAND.pinterest, label: 'Pinterest' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<!-- ── Newsletter band ───────────────────────────────────────────────── -->
+<section class="w-full grad-cream border-t border-line" aria-labelledby="newsletter-title">
+  <div class="max-w-[1400px] mx-auto grid lg:grid-cols-[1.1fr_1.4fr_0.9fr]">
+    <div class="px-5 sm:px-8 lg:px-12 py-12 lg:py-16 flex flex-col justify-center">
+      <p class="eyebrow">Sé parte de bellas</p>
+      <h2 id="newsletter-title" class="display text-4xl sm:text-5xl mt-1 mb-4">Historias</h2>
+      <p class="text-sm text-muted max-w-xs leading-relaxed mb-6">
+        Suscríbete y recibe novedades, promociones y skincare tips exclusivos.
+      </p>
+      <NewsletterForm client:visible />
+    </div>
+
+    <!-- Editorial collage -->
+    <div class="grid grid-cols-3 min-h-[180px] lg:min-h-[320px]">
+      <img
+        src={unsplash(PHOTO.serumTrio, 500, 700)}
+        alt="Sueros de la rutina Valangel"
+        loading="lazy"
+        class="w-full h-full object-cover"
+      />
+      <div class="grad-rose grid place-items-center p-4 text-center">
+        <p class="script text-lg sm:text-2xl leading-snug text-wine">
+          Disciplina hoy,<br />una piel increíble<br />mañana <span class="not-italic">♡</span>
+        </p>
+      </div>
+      <img
+        src={unsplash(PHOTO.spaMask, 500, 700)}
+        alt="Ritual de cuidado facial"
+        loading="lazy"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <div class="px-5 sm:px-8 lg:px-12 py-10 lg:py-16 flex flex-col justify-center gap-6 border-t lg:border-t-0 lg:border-l border-line">
+      <div>
+        <p class="eyebrow mb-4">Síguenos</p>
+        <div class="flex gap-1.5 flex-wrap">
+          {socials.map((s) => (
+            <a
+              href={s.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${BRAND.name} en ${s.label}`}
+              class="w-10 h-10 grid place-items-center rounded-full border border-line text-taupe hover:text-wine hover:border-taupe hover:bg-white transition-colors"
+            >
+              <SocialIcon name={s.name} />
+            </a>
+          ))}
+        </div>
+      </div>
+      <p class="script text-xl leading-snug text-taupe">
+        Gracias por ser parte<br />de esta historia <span class="not-italic">♡</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────────────── -->
+<footer class="w-full bg-white border-t border-line">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-12 lg:py-16">
+    <div class="grid gap-10 lg:grid-cols-[1.2fr_2fr]">
+      <div class="flex flex-col gap-5">
+        <a href={u('/')} class="text-wine self-start" aria-label={`${BRAND.name} — inicio`}>
+          <Logo size="lg" />
+        </a>
+        <p class="text-sm text-muted max-w-xs leading-relaxed">
+          Skincare original, asesoría honesta y envíos a todo el país desde {BRAND.city}.
+        </p>
+        <a href={WA_LINK} target="_blank" rel="noreferrer" class="btn btn-ghost self-start">
+          Hablar con una asesora
+        </a>
+      </div>
+
+      <nav class="grid grid-cols-2 sm:grid-cols-3 gap-8" aria-label="Enlaces del pie de página">
+        {footerNav.map((group) => (
+          <div>
+            <h3 class="eyebrow mb-4">{group.title}</h3>
+            <ul class="flex flex-col gap-2.5">
+              {group.links.map((link) => (
+                <li>
+                  <a href={u(link.href)} class="text-[13px] text-muted hover:text-wine transition-colors">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-line flex flex-col sm:flex-row gap-4 items-center justify-between">
+      <p class="text-[10px] uppercase tracking-[0.18em] text-muted text-center sm:text-left">
+        © {year} {BRAND.name}. Todos los derechos reservados.
+      </p>
+      <p class="text-[10px] uppercase tracking-[0.24em] text-taupe flex items-center gap-2">
+        Made to glow
+        <span aria-hidden="true">✦</span>
+      </p>
+    </div>
+  </div>
+</footer>

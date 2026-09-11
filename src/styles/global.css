@@ -1,0 +1,228 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ════════════════════════════════════════════════════════════════════════
+   VALANGEL SKIN — design tokens
+   Palette, typography and motion taken from the official brand board.
+   ════════════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Brand palette (Pantone references from the brand board) ───────── */
+  --color-rose: #F5DADF;          /* 705 C   — rosa Valangel, color principal */
+  --color-rose-light: #F9E7E7;    /*         — rosa claro, fondos suaves      */
+  --color-rose-shadow: #E4C0C1;   /* 7604 C  — rosa sombra                     */
+  --color-mauve: #D9AFAF;         /* 7520 C  — mauve rosado                    */
+  --color-champagne: #C89A83;     /* 7521 C  — champagne                       */
+  --color-taupe: #A88374;         /* 7525 C  — taupe                           */
+  --color-chrome: #D9D9D9;        /*         — acento metálico                 */
+  --color-snow: #F4F0EA;          /* 11-0602 — snow white, fondo crema         */
+
+  /* ── Semantic tokens ──────────────────────────────────────────────── */
+  --color-ink: #3D2C2E;           /* texto principal            (12.4:1 / white) */
+  --color-wine: #6E2A38;          /* titulares display          (10.2:1 / white) */
+  --color-cocoa: #8A6153;         /* botones sólidos            (5.4:1  con white) */
+  --color-muted: #7A6663;         /* texto secundario           (5.4:1  / white) */
+  --color-line: #EADFD9;          /* bordes y separadores        */
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #FBF7F4;
+
+  /* ── Tipografías del manual de marca ──────────────────────────────── */
+  --font-display: 'Playfair Display', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-sans: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-accent: 'Cormorant Garamond', ui-serif, Georgia, serif;
+
+  /* ── Rhythm ───────────────────────────────────────────────────────── */
+  --radius-brand: 1.25rem;
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    /* iOS: stop rubber-band horizontal scroll on snap rails */
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-wine);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  /* Never let a focus ring disappear — keyboard users need it. */
+  :focus-visible {
+    outline: 2px solid var(--color-cocoa);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Comfortable tap targets on touch devices */
+  @media (pointer: coarse) {
+    button, a[role="button"], [data-tap] {
+      min-height: 44px;
+    }
+  }
+}
+
+@layer components {
+  /* ── Eyebrow: the wide-tracked small caps used all over the brand ──── */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* ── Script accents ("Good Skin Brighter You") ─────────────────────── */
+  .script {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-taupe);
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Display headline, tightly set like the brand board ────────────── */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    color: var(--color-wine);
+  }
+
+  /* ── Buttons ───────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.875rem 1.75rem;
+    border-radius: 999px;
+    transition: all 0.35s var(--ease-brand);
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background-color: var(--color-cocoa);
+    color: #fff;
+    box-shadow: 0 8px 24px -12px rgba(110, 42, 56, 0.55);
+  }
+  .btn-primary:hover { background-color: var(--color-wine); transform: translateY(-1px); }
+  .btn-ghost {
+    border: 1px solid var(--color-taupe);
+    color: var(--color-wine);
+    background: transparent;
+  }
+  .btn-ghost:hover { background-color: var(--color-rose-light); }
+
+  /* ── Liquid rosé gradients — stand in for the brand's cream textures ─ */
+  .grad-rose {
+    background:
+      radial-gradient(120% 90% at 12% 8%,  #FFFFFF 0%, rgba(255,255,255,0) 55%),
+      radial-gradient(90% 80% at 88% 18%,  #F9E7E7 0%, rgba(249,231,231,0) 60%),
+      radial-gradient(110% 100% at 70% 100%, #E4C0C1 0%, rgba(228,192,193,0) 65%),
+      linear-gradient(135deg, #F5DADF 0%, #F9E7E7 45%, #F4F0EA 100%);
+  }
+  .grad-cream {
+    background:
+      radial-gradient(100% 80% at 85% 0%, #F9E7E7 0%, rgba(249,231,231,0) 62%),
+      linear-gradient(180deg, #FBF7F4 0%, #F4F0EA 100%);
+  }
+  /* Layered radials read as poured cream; a conic gradient looked like metal. */
+  .grad-silk {
+    background:
+      radial-gradient(60% 55% at 18% 22%, rgba(255,255,255,.95) 0%, rgba(255,255,255,0) 60%),
+      radial-gradient(55% 50% at 78% 30%, #F9E7E7 0%, rgba(249,231,231,0) 65%),
+      radial-gradient(70% 60% at 30% 88%, #E4C0C1 0%, rgba(228,192,193,0) 70%),
+      radial-gradient(50% 45% at 88% 82%, #D9AFAF 0%, rgba(217,175,175,0) 72%),
+      linear-gradient(155deg, #F9E7E7 0%, #F5DADF 55%, #EFD3D6 100%);
+  }
+  .grad-chrome {
+    background: linear-gradient(105deg, #D9D9D9 0%, #FFFFFF 22%, #C8C8C8 46%, #FFFFFF 70%, #D9D9D9 100%);
+  }
+
+  /* ── Horizontal snap rails (mobile-first carousels) ────────────────── */
+  .rail {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail > * { scroll-snap-align: start; flex: 0 0 auto; }
+  /* Trailing padding is dropped by flex scroll containers in Safari/Chrome —
+     this spacer guarantees the last item never touches the viewport edge. */
+  .rail::after {
+    content: '';
+    flex: 0 0 1.25rem;
+    align-self: stretch;
+  }
+  @media (min-width: 640px) { .rail::after { flex-basis: 2rem; } }
+  @media (min-width: 1024px) { .rail::after { flex-basis: 3rem; } }
+  /* A rail that collapses into a grid must not keep the spacer or the scroll. */
+  .rail.sm\:grid::after { content: none; }
+
+  /* Hairline separators in the brand's warm tone */
+  .hairline { border-color: var(--color-line); }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  /* Infinite brand marquee */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .animate-marquee { animation: marquee 38s linear infinite; }
+  .animate-marquee:hover { animation-play-state: paused; }
+
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .animate-shimmer {
+    background-size: 200% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .animate-fade-up { animation: fade-up 0.7s var(--ease-brand) both; }
+
+  /* Safe-area padding for the mobile tab bar on notched phones */
+  .pb-safe { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
+  .mb-safe { margin-bottom: max(0rem, env(safe-area-inset-bottom)); }
+}

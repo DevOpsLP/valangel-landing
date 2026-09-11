@@ -1,0 +1,64 @@
+---
+import { concerns, unsplash, PHOTO } from '../../lib/catalog';
+import { ConcernIcon } from '../ui/icons';
+import { u } from '../../lib/url';
+import SectionHeading from './SectionHeading.astro';
+---
+
+<section class="w-full bg-white py-12 sm:py-16 lg:py-20" aria-labelledby="rutina-title">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="grid lg:grid-cols-[220px_1fr_260px] gap-8 lg:gap-10 items-start">
+      <div id="rutina-title">
+        <SectionHeading
+          title="Build your<br />routine"
+          text="Encuentra los productos ideales según las necesidades de tu piel."
+          ctaLabel="Comenzar"
+          ctaHref="/rutinas"
+        />
+      </div>
+
+      <!-- Concern picker: a rail on phones, a 7-up grid from md -->
+      <ul class="rail md:grid md:grid-cols-4 lg:grid-cols-7 gap-0 border border-line rounded-3xl overflow-hidden bg-snow -mx-1 md:mx-0">
+        {concerns.map((c, i) => (
+          <li class:list={['min-w-[112px] md:min-w-0', i > 0 && 'border-l border-line']}>
+            <a
+              href={u(`/tienda?necesidad=${c.slug}`)}
+              class="group flex flex-col items-center justify-center gap-3 px-3 py-7 h-full text-center transition-colors hover:bg-white"
+            >
+              <span class="w-7 h-7 text-taupe transition-transform duration-500 group-hover:-translate-y-0.5">
+                <ConcernIcon name={c.icon} />
+              </span>
+              <span class="text-[11px] text-ink group-hover:text-wine transition-colors leading-tight">
+                {c.name}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Quiz card -->
+      <a href={u('/rutinas')} class="group relative block rounded-3xl overflow-hidden grad-rose p-6 min-h-[220px] w-full">
+        <div class="relative z-10 max-w-[60%]">
+          <p class="eyebrow !text-[10px] text-wine/70 leading-relaxed">
+            Tu rutina<br />a tu medida
+          </p>
+          <p class="text-[13px] text-ink/80 mt-3 leading-relaxed">
+            Responde unas preguntas y te recomendamos los productos perfectos.
+          </p>
+          <span class="btn btn-primary mt-5 !px-5 !py-3 !text-[10px]">
+            Crear mi rutina
+            <svg viewBox="0 0 24 24" class="w-3 h-3 transition-transform duration-500 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </span>
+        </div>
+        <img
+          src={unsplash(PHOTO.jadeRoller, 400, 500)}
+          alt=""
+          loading="lazy"
+          class="absolute -right-4 bottom-0 w-[45%] h-full object-cover rounded-l-3xl opacity-90"
+        />
+      </a>
+    </div>
+  </div>
+</section>

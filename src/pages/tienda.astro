@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ShopBrowser from '../components/shop/ShopBrowser';
+import { categoryBySlug } from '../lib/catalog';
+
+// A category can arrive in the URL (from the circles or the mega menu). The
+// grid re-reads the query string on mount, so this only seeds the heading.
+const categorySlug = Astro.url.searchParams.get('categoria') ?? undefined;
+const category = categorySlug ? categoryBySlug.get(categorySlug) : undefined;
+---
+
+<Layout
+  title={category ? `${category.name} | Valangel Skin` : 'Tienda | Valangel Skin'}
+  description="Todo el catálogo Valangel Skin: limpiadores, tónicos, sueros, cremas, protección solar, lip care, body care y accesorios originales."
+>
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-12">
+    <header class="mb-8 sm:mb-10">
+      <p class="eyebrow">Valangel Skin</p>
+      <h1 class="display text-4xl sm:text-5xl lg:text-6xl mt-2">
+        {category ? category.name : 'La tienda'}
+      </h1>
+      <p class="mt-3 text-sm text-muted max-w-md leading-relaxed">
+        {category?.blurb ?? 'Productos originales, seleccionados uno a uno. Filtra por categoría, marca o por lo que tu piel necesita hoy.'}
+      </p>
+    </header>
+
+    <ShopBrowser client:load initialCategory={categorySlug} />
+  </div>
+</Layout>

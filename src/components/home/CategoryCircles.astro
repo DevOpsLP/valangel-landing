@@ -1,0 +1,35 @@
+---
+import { categories, unsplash } from '../../lib/catalog';
+import { u } from '../../lib/url';
+---
+
+<section class="w-full grad-cream py-10 sm:py-14" aria-labelledby="categorias-title">
+  <h2 id="categorias-title" class="sr-only">Categorías</h2>
+
+  <div class="max-w-[1400px] mx-auto">
+    <!-- One rail at every size: nine circles never fit a phone row -->
+    <ul class="rail gap-5 sm:gap-7 px-5 sm:px-8 lg:px-12 xl:justify-center">
+      {categories.map((c) => (
+        <li class="w-[88px] sm:w-[104px] lg:w-[112px]">
+          <a
+            href={u(`/tienda?categoria=${c.slug}`)}
+            class="group flex flex-col items-center gap-3 text-center"
+          >
+            <span class="relative block w-[88px] h-[88px] sm:w-[104px] sm:h-[104px] lg:w-[112px] lg:h-[112px] rounded-full overflow-hidden bg-white ring-1 ring-line transition-all duration-500 group-hover:ring-mauve group-hover:shadow-[0_18px_36px_-24px_rgba(110,42,56,.6)]">
+              <img
+                src={unsplash(c.image!, 260, 260)}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+            </span>
+            <span class="text-[11px] sm:text-xs text-ink group-hover:text-wine transition-colors leading-tight">
+              {c.name}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

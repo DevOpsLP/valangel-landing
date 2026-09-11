@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import ShopBrowser from '../../components/shop/ShopBrowser';
+import { brands, fallbackProducts } from '../../lib/catalog';
+import { u } from '../../lib/url';
+import { WA_LINK } from '../../lib/constants';
+
+export function getStaticPaths() {
+  return brands.map((brand) => ({ params: { slug: brand.slug }, props: { brand } }));
+}
+
+const { brand } = Astro.props;
+const count = fallbackProducts.filter((p) => p.brand?.slug === brand.slug).length;
+---
+
+<Layout
+  title={`${brand.name} | Valangel Skin`}
+  description={brand.blurb}
+  bleed
+>
+  <PageHero eyebrow={brand.origin} title={brand.name} text={brand.blurb} tone="rose">
+    <a href={WA_LINK} target="_blank" rel="noreferrer" class="btn btn-ghost mt-6 self-start">
+      Consultar disponibilidad
+    </a>
+  </PageHero>
+
+  <nav aria-label="Migas de pan" class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 pt-6">
+    <ol class="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-muted">
+      <li><a href={u('/')} class="hover:text-wine transition-colors">Inicio</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href={u('/marcas')} class="hover:text-wine transition-colors">Marcas</a></li>
+      <li aria-hidden="true">/</li>
+      <li class="text-wine">{brand.name}</li>
+    </ol>
+  </nav>
+
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-10">
+    <h2 class="display text-2xl sm:text-3xl mb-6">
+      {count > 0 ? `Productos de ${brand.name}` : `Todo el catálogo`}
+    </h2>
+    <!-- The browser reads ?marca= from the URL on mount, so deep links keep working -->
+    <ShopBrowser client:load initialBrand={brand.slug} hideBrandFilter />
+  </div>
+</Layout>

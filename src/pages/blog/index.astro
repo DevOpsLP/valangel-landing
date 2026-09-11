@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import { posts } from '../../lib/content';
+import { unsplash } from '../../lib/catalog';
+import { u } from '../../lib/url';
+
+const sorted = [...posts].sort((a, b) => b.date.localeCompare(a.date));
+const [lead, ...rest] = sorted;
+
+const fmt = (iso: string) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString('es-VE', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Layout
+  title="Blog | Valangel Skin"
+  description="Guías honestas de skincare: rutinas, ingredientes, protección solar y cómo reconocer un producto original."
+  bleed
+>
+  <PageHero
+    eyebrow="Bellas historias"
+    title="El blog"
+    text="Skincare explicado sin marketing. Lo que funciona, lo que no, y en cuánto tiempo se nota."
+    tone="cream"
+  />
+
+  <section class="w-full bg-white py-10 sm:py-14">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+      <!-- Lead story -->
+      <a href={u(`/blog/${lead.slug}`)} class="group grid lg:grid-cols-2 gap-6 lg:gap-10 items-center mb-12 lg:mb-16">
+        <span class="block rounded-3xl overflow-hidden aspect-[4/3] grad-cream">
+          <img src={unsplash(lead.image, 1000, 750)} alt="" loading="eager" class="w-full h-full object-cover transition-transform duration-[900ms] group-hover:scale-105" />
+        </span>
+        <span class="flex flex-col gap-3">
+          <span class="eyebrow">{lead.category} · {lead.readingMinutes} min de lectura</span>
+          <h2 class="display text-3xl sm:text-4xl lg:text-5xl text-balance">{lead.title}</h2>
+          <span class="text-[15px] text-muted leading-relaxed max-w-lg">{lead.excerpt}</span>
+          <span class="text-[11px] uppercase tracking-[0.16em] text-taupe mt-1">{fmt(lead.date)}</span>
+          <span class="btn btn-primary self-start mt-3">Leer artículo</span>
+        </span>
+      </a>
+
+      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+        {rest.map((post) => (
+          <li>
+            <a href={u(`/blog/${post.slug}`)} class="group flex flex-col gap-3 h-full">
+              <span class="block rounded-2xl overflow-hidden aspect-[4/3] grad-cream">
+                <img src={unsplash(post.image, 600, 450)} alt="" loading="lazy" class="w-full h-full object-cover transition-transform duration-[900ms] group-hover:scale-105" />
+              </span>
+              <span class="eyebrow">{post.category} · {post.readingMinutes} min</span>
+              <h3 class="font-[family-name:var(--font-display)] text-xl leading-snug group-hover:text-cocoa transition-colors">{post.title}</h3>
+              <span class="text-[13px] text-muted leading-relaxed">{post.excerpt}</span>
+              <span class="mt-auto pt-2 text-[10px] uppercase tracking-[0.16em] text-taupe">{fmt(post.date)}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>
